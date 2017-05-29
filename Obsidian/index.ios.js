@@ -6,29 +6,50 @@ import {
   View,
   TouchableHighlight,
   Image,
-  Button
+  FlatList, 
+  ScrollView
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import NavBar from './App/Components/NavBar';
 import TopBar from './App/Components/TopBar';
 import CurrencyBlock from './App/Components/CurrencyBlock';
 import images from './App/Config/images';
+import axios from 'axios';
 
 export default class Obsidian extends Component {
-  //  static navigationOptions = {
-  //   title: <Image source={images.logo} style={{ width: 35, height: 25}}/>,
-  //   headerRight: <Button color={screenProps.tintColor} {...} />,
-  // };
   static navigationOptions = {
     header: null,
   };
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      currencies: []
+    };
+  }
+
+  componentDidMount() {
+     axios.get('http://192.168.1.118:3000/')
+       .then(res => {
+        console.log(res.data.names);
+         const currencies = res.data.names;
+         this.setState({ currencies });
+       });
+   }
+
+   _keyExtractor = (item, index) => item.id;
+
+   renderItem = ({item}) => {
+    console.log(item);
+    return (
+      <CurrencyBlock key={item.id} name = {item.name} amount={item.amount} shares={item.shares}/>
+    )
+  }
+
   render() {
     const { navigate } = this.props.navigation;
-    let names=[{name: 'Ethereums', amount: 65.72, shares: 32}, {name: 'Bitcoin',  amount: 125.32, shares: 42}, {name: 'NXT', amount: 140.52, shares: 25}];
-    let nameList = names.map(function(currencies, index) {
-      return <CurrencyBlock key={index} name = {currencies.name} amount={currencies.amount} shares={currencies.shares}/>
-    });
+    let nameList;
     return (
       <View style={styles.background}>
         <TopBar />
@@ -45,11 +66,15 @@ export default class Obsidian extends Component {
             <View style={{flex: 1}}/>
           </View>
         </View>
+
         <View style={styles.container}>
-          <View style={{
-            flex: 1,
-            flexDirection: 'column',
-          }}>{nameList}</View>
+          <View style={{flex: 1, flexDirection: 'column',}}>
+            <FlatList
+              data={this.state.currencies}
+              renderItem={this.renderItem}
+              keyExtractor={this._keyExtractor}
+            />
+          </View>
         </View>
       </View>
     );
