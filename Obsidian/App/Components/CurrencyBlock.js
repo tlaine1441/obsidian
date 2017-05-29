@@ -35,8 +35,8 @@ const styles = StyleSheet.create({
   amount: {
     flex: 1, 
     color: '#2FBC22', 
-    fontSize: 22, 
-    paddingTop: 25,
+    fontSize: 16, 
+    paddingTop: 28,
     textAlign: 'center'
   },
   inBudgetCol: {

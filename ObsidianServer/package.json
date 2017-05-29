@@ -11,6 +11,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.15.3"
+    "autobahn": "^17.5.2",
+    "express": "^4.15.3",
+    "kraken-api": "^0.1.7",
+    "request": "^2.81.0",
+    "socketcluster-client": "^5.5.0"
   }
 }

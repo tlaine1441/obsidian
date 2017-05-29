@@ -30,10 +30,10 @@ export default class Obsidian extends Component {
   }
 
   componentDidMount() {
-     axios.get('http://192.168.1.118:3000/')
+     axios.get('http:/localhost:3000/')
        .then(res => {
-        console.log(res.data.names);
-         const currencies = res.data.names;
+        console.log(res.data);
+         const currencies = res.data;
          this.setState({ currencies });
        });
    }
@@ -43,7 +43,7 @@ export default class Obsidian extends Component {
    renderItem = ({item}) => {
     console.log(item);
     return (
-      <CurrencyBlock key={item.id} name = {item.name} amount={item.amount} shares={item.shares}/>
+      <CurrencyBlock key={item.data.id} name = {item.name} amount={item.data.last} shares={item.shares}/>
     )
   }
 
