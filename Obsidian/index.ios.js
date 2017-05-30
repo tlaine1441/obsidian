@@ -14,6 +14,7 @@ import images from './App/Config/images';
 import firebase from 'firebase';
 import { Button, CardSection, Spinner } from './App/Components/common';
 import LoginForm from './App/Components/LoginForm';
+import ProfileScreen from './App/Components/ProfileScreen';
 
 class App extends Component {
 
@@ -123,36 +124,6 @@ class Home extends Component {
             </View>
             <View style={{flex: 1}}/>
           </View>
-        </View>
-      </View>
-    );
-  }
-}
-
-class ProfileScreen extends React.Component {
-  render() {
-    return (
-      <View>
-      <TopBar />
-      <View style={styles.nav}>
-          <View style={{flexDirection: 'row'}}>
-            <View style={{flex: 1}}>
-              <TouchableHighlight onPress={this.props.toHome} >
-              <Image source={images.back} style={{width: 25, height: 25, marginLeft: 10}} />
-              </TouchableHighlight>
-            </View>
-            <View style={{flex: 1, alignItems: 'center'}}>
-            <Image source={images.logo} style={{ width: 35, height: 25}}/>
-            </View>
-            <View style={{flex: 1}}/>
-          </View>
-        </View>
-        <View style={{marginTop: 200}}>
-          <CardSection>
-            <Button onPress={() => firebase.auth().signOut()}>
-              Log Out
-            </Button>
-          </CardSection>
         </View>
       </View>
     );

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { View, } from 'react-native';
 import firebase from 'firebase';
-import { Button, CardSection, Spinner } from './Components/common';
+import { Button, CardSection, Spinner } from './omponents/common';
 import LoginForm from './Components/LoginForm';
 import Home from './Components/Home';
 
