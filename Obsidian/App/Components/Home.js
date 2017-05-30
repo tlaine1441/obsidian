@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  AppRegistry,
   StyleSheet,
   Text,
   View,
@@ -8,17 +9,15 @@ import {
   FlatList, 
   ScrollView
 } from 'react-native';
+import TopBar from './TopBar';
+import images from '../Config/images';
 import firebase from 'firebase';
 import { Button, CardSection, Spinner } from './common';
 import LoginForm from './LoginForm';
-import TopBar from './TopBar';
-import images from '../Config/images';
-import { StackNavigator } from 'react-navigation';
+import ProfileScreen from './ProfileScreen';
 
-class Home extends Component {
-  static navigationOptions = {
-    header: null,
-  };
+
+export default class Home extends Component {
    constructor(props) {
     super(props);
     this.state = {value: ''};
@@ -27,6 +26,7 @@ class Home extends Component {
   componentDidMount() {
     var self = this;
     const { currentUser } = firebase.auth();
+
     sendMessage = () => {
        console.log('sendMessage.');
        const { currentUser } = firebase.auth();
@@ -34,35 +34,37 @@ class Home extends Component {
        updates[`users/${currentUser.uid}/`] =
         {'test': ["1",2,5]}
        firebase.database().ref().update(updates);
-       // this.setState({ newMessage: '' });
-     }
-      firebase.database().ref().child('users').child(`${currentUser.uid}`).child('test').on('value', function(snapshot) {
-          console.log(snapshot.val());
-          let value = snapshot.val();
-          self.setState({value: value});
+    }
 
-       });
+    firebase.database().ref().child('users').child(`${currentUser.uid}`).child('test').on('value', function(snapshot) {
+      console.log(snapshot.val());
+      let value = snapshot.val();
+      self.setState({value: value});
+    });
   }
 
   render() {
     return (
       <View style={styles.background}>
         <TopBar />
-        <View style={{marginTop: 200}}>
-        <Text>{this.state.value}</Text>
-          <CardSection>
-            <Button onPress={() => sendMessage()}>
-              Send
-            </Button>
-            <Button onPress={() => firebase.auth().signOut()}>
-              Log Out
-            </Button>
-          </CardSection>
+        <View style={styles.nav}>
+          <View style={{flexDirection: 'row'}}>
+            <View style={{flex: 1}}>
+              <TouchableHighlight onPress={this.props.toProfile} >
+              <Image source={images.person} style={{width: 25, height: 25, marginLeft: 10}} />
+              </TouchableHighlight>
+            </View>
+            <View style={{flex: 1, alignItems: 'center'}}>
+            <Image source={images.logo} style={{ width: 35, height: 25}}/>
+            </View>
+            <View style={{flex: 1}}/>
+          </View>
         </View>
       </View>
     );
   }
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -90,5 +92,3 @@ const styles = StyleSheet.create({
     paddingTop: 15,
   },
 });
-
-export default Home;
