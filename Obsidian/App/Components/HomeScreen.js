@@ -6,8 +6,7 @@ import {
   View,
   TouchableHighlight,
   Image,
-  FlatList, 
-  ScrollView
+  FlatList
 } from 'react-native';
 import TopBar from './TopBar';
 import images from '../Config/images';
@@ -22,7 +21,6 @@ export default class HomeScreen extends Component {
 
   constructor(props) {
     super(props);
-
     this.state = {
       info: []
     };
@@ -38,15 +36,17 @@ export default class HomeScreen extends Component {
        });
    }
 
+   // Get unique keys from data
    _keyExtractor = (item, index) => item.data.id;
 
+   // Render Currency block factory
    renderItem = ({item}) => {
     console.log(item);
     return (
       <CurrencyBlock key={item.data.id} name = {item.name} amount={item.data.last} shares={item.shares}/>
     )
   }
-  
+
   render() {
     return (
       <View style={styles.background}>
@@ -55,7 +55,7 @@ export default class HomeScreen extends Component {
           <View style={{flexDirection: 'row'}}>
             <View style={{flex: 1}}>
               <TouchableHighlight onPress={this.props.toProfile} >
-              <Image source={images.person} style={{width: 25, height: 25, marginLeft: 10}} />
+                <Image source={images.person} style={{width: 25, height: 25, marginLeft: 10}} />
               </TouchableHighlight>
             </View>
             <View style={{flex: 1, alignItems: 'center'}}>

@@ -143,3 +143,41 @@
 // });
 
 // AppRegistry.registerComponent('Obsidian', () => ObsidianApp);
+
+
+
+
+// <View style={styles.background}>
+//       <View style=>
+//       </View>
+//       <View>
+//       <Card>
+//         <CardSection>
+//           <Input
+//             placeholder="user@email.com"
+//             label="Email"
+//             value={this.state.email}
+//             onChangeText={email => this.setState({ email })}
+//           />
+//         </CardSection>
+
+//         <CardSection>
+//           <Input
+//             secureTextEntry
+//             placeholder="password"
+//             label="Password"
+//             value={this.state.password}
+//             onChangeText={password => this.setState({ password })}
+//           />
+//         </CardSection>
+
+//         <Text style={styles.errorTextStyle}>
+//           {this.state.error}
+//         </Text>
+
+//         <CardSection>
+//           {this.renderButton()}
+//         </CardSection>
+//       </Card>
+//       </View>
+//       </View>

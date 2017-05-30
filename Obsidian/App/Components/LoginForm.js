@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Text } from 'react-native';
+import { Text, StyleSheet, View, Image, } from 'react-native';
 import firebase from 'firebase';
 import { Button, Card, CardSection, Input, Spinner } from './common';
+import images from '../Config/images';
 
 class LoginForm extends Component {
   state = { email: '', password: '', error: '', loading: false };
@@ -38,6 +39,7 @@ class LoginForm extends Component {
       return <Spinner size="small" />;
     }
 
+
     return (
       <Button onPress={this.onButtonPress.bind(this)}>
         Log In
@@ -47,44 +49,55 @@ class LoginForm extends Component {
 
   render() {
     return (
-      <Card>
-        <CardSection>
-          <Input
+      <View style={styles.background}>
+        <View style={styles.logoContainer}>
+          <Image source={images.login_logo} style={{ width: 95, height: 75}}/>
+
+        </View>
+        <View style={styles.inputContainer} >
+        <Input 
             placeholder="user@email.com"
             label="Email"
             value={this.state.email}
             onChangeText={email => this.setState({ email })}
           />
-        </CardSection>
 
-        <CardSection>
-          <Input
+           <Input
             secureTextEntry
             placeholder="password"
             label="Password"
             value={this.state.password}
             onChangeText={password => this.setState({ password })}
           />
-        </CardSection>
-
-        <Text style={styles.errorTextStyle}>
-          {this.state.error}
-        </Text>
-
-        <CardSection>
-          {this.renderButton()}
-        </CardSection>
-      </Card>
+        </View>
+      </View>
     );
   }
 }
 
-const styles = {
+const styles = StyleSheet.create({
   errorTextStyle: {
     fontSize: 20,
     alignSelf: 'center',
     color: 'red'
-  }
-};
+  },
+   background: {
+    height: '100%',
+    backgroundColor: '#1F2223',
+  },
+  logoContainer: {
+    paddingTop: 100,
+    height: 200, 
+    justifyContent: 'center', 
+    alignItems: 'center'
+  },
+  input: {
+   backgroundColor: 'red'
+  },
+  inputContainer: {
+    padding: 40,
+    height: '60%',
+  },
+});
 
 export default LoginForm;
