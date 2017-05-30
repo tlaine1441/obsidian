@@ -134,20 +134,6 @@ class Home extends Component {
             <View style={{flex: 1}}/>
           </View>
         </View>
-        <View style={{marginTop: 200}}>
-        <Text>{this.state.value}</Text>
-          <CardSection>
-            <Button onPress={() => sendMessage()}>
-              Send
-            </Button>
-            <Button onPress={this.props.other}>
-              Send
-            </Button>
-            <Button onPress={() => firebase.auth().signOut()}>
-              Log Out
-            </Button>
-          </CardSection>
-        </View>
       </View>
     );
   }
@@ -162,7 +148,7 @@ class ProfileScreen extends React.Component {
           <View style={{flexDirection: 'row'}}>
             <View style={{flex: 1}}>
               <TouchableHighlight onPress={this.props.back} >
-              <Image source={images.person} style={{width: 25, height: 25, marginLeft: 10}} />
+              <Image source={images.back} style={{width: 25, height: 25, marginLeft: 10}} />
               </TouchableHighlight>
             </View>
             <View style={{flex: 1, alignItems: 'center'}}>
@@ -170,6 +156,19 @@ class ProfileScreen extends React.Component {
             </View>
             <View style={{flex: 1}}/>
           </View>
+        </View>
+        <View style={{marginTop: 200}}>
+          <CardSection>
+            <Button onPress={() => sendMessage()}>
+              Send
+            </Button>
+            <Button onPress={this.props.other}>
+              Send
+            </Button>
+            <Button onPress={() => firebase.auth().signOut()}>
+              Log Out
+            </Button>
+          </CardSection>
         </View>
       </View>
     );
