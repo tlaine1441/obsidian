@@ -17,7 +17,7 @@ import LoginForm from './LoginForm';
 import ProfileScreen from './ProfileScreen';
 
 
-export default class Home extends Component {
+export default class HomeScreen extends Component {
    constructor(props) {
     super(props);
     this.state = {value: ''};

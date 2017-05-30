@@ -1,39 +1,64 @@
+// Import React and Component from react
 import React, { Component } from 'react';
+
+// Import View
 import {
-  AppRegistry,
   View
 } from 'react-native';
-import firebase from 'firebase';
-import { Button, CardSection, Spinner } from './Components/common';
-import LoginForm from './Components/LoginForm';
-import ProfileScreen from './Components/ProfileScreen';
-import Home from './Components/Home';
 
+// Import firebase
+import firebase from 'firebase';
+
+// Import Common Components
+import { Button, CardSection, Spinner } from './Components/common';
+
+// Import LoginForm Component
+import LoginForm from './Components/LoginForm';
+
+// Import ProfileScreen Component
+import ProfileScreen from './Components/ProfileScreen';
+
+// Import HomeScreen Component
+import HomeScreen from './Components/HomeScreen';
+
+import config from './Config/config';
+
+
+// Create Main App Component
 export default class App extends Component {
 
+  // Base constructor to set state and bind functions
   constructor(props) {
     super(props);
     this.state = {
       router: null
     };
+
+    // bindings
     this.toProfile = this.toProfile.bind(this);
     this.toHome = this.toHome.bind(this);
-  }
+  } // end constructor
 
+  // toProfile function sets router state to 'ProfileScreen'
   toProfile(){
     this.setState({router: 'ProfileScreen'});
   }
+
+  // toHome function sets router state to 'HomeScreen'
   toHome(){
     this.setState({router: 'loggedInHome'});
   }
 
+  // Will Mount
   componentWillMount() {
+
+    // Initialize FireBase
     firebase.initializeApp({
-      apiKey: "AIzaSyA9W-y3LEHDnkWyGZ_ynmnWkLS2XiD0t9I",
-      authDomain: "obsidian-a9f75.firebaseapp.com",
-      databaseURL: "https://obsidian-a9f75.firebaseio.com", 
-      storageBucket: "obsidian-a9f75.appspot.com",
-      messagingSenderId: "38380095952"
+      apiKey: config.apiKey,
+      authDomain: config.authDomain,
+      databaseURL: config.databaseURL, 
+      storageBucket: config.storageBucket,
+      messagingSenderId: config.messagingSenderId
     });
 
     firebase.auth().onAuthStateChanged((user) => {
@@ -49,7 +74,7 @@ export default class App extends Component {
     switch (this.state.router) {
       case 'loggedInHome':
       return (
-        <Home toProfile={this.toProfile}/>
+        <HomeScreen toProfile={this.toProfile}/>
       );
       case 'ProfileScreen':
       return (
