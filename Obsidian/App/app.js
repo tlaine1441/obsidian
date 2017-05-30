@@ -1,44 +1,68 @@
 import React, { Component } from 'react';
-import { View, } from 'react-native';
+import {
+  AppRegistry,
+  View
+} from 'react-native';
 import firebase from 'firebase';
-import { Button, CardSection, Spinner } from './omponents/common';
+import { Button, CardSection, Spinner } from './Components/common';
 import LoginForm from './Components/LoginForm';
+import ProfileScreen from './Components/ProfileScreen';
 import Home from './Components/Home';
 
-class App extends Component {
-  state = { loggedIn: null }
+export default class App extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      router: null
+    };
+    this.toProfile = this.toProfile.bind(this);
+    this.toHome = this.toHome.bind(this);
+  }
+
+  toProfile(){
+    this.setState({router: 'ProfileScreen'});
+  }
+  toHome(){
+    this.setState({router: 'loggedInHome'});
+  }
 
   componentWillMount() {
     firebase.initializeApp({
-          apiKey: "AIzaSyA9W-y3LEHDnkWyGZ_ynmnWkLS2XiD0t9I",
-          authDomain: "obsidian-a9f75.firebaseapp.com",
-          databaseURL: "https://obsidian-a9f75.firebaseio.com", 
-          storageBucket: "obsidian-a9f75.appspot.com",
-          messagingSenderId: "38380095952"
+      apiKey: "AIzaSyA9W-y3LEHDnkWyGZ_ynmnWkLS2XiD0t9I",
+      authDomain: "obsidian-a9f75.firebaseapp.com",
+      databaseURL: "https://obsidian-a9f75.firebaseio.com", 
+      storageBucket: "obsidian-a9f75.appspot.com",
+      messagingSenderId: "38380095952"
     });
 
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        this.setState({ loggedIn: true });
+        this.setState({ router: 'loggedInHome' });
       } else {
-        this.setState({ loggedIn: false });
+        this.setState({ router: 'loggedOut' });
       }
     });
   }
 
   renderContent() {
-    switch (this.state.loggedIn) {
-      case true:
+    switch (this.state.router) {
+      case 'loggedInHome':
       return (
-        <Home />
+        <Home toProfile={this.toProfile}/>
       );
-      case false:
+      case 'ProfileScreen':
+      return (
+        <ProfileScreen toHome={this.toHome} />
+      )
+      case 'loggedOut':
         return <LoginForm />;
       default:
         return (
           <View alignSelf='center'>
             <Spinner size="large" />
-          </View>);
+          </View>
+        );
     }
   }
 
@@ -50,5 +74,3 @@ class App extends Component {
     );
   }
 }
-
-export default App;
