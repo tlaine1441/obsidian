@@ -7,6 +7,7 @@ const Input = ({ label, value, onChangeText, placeholder, secureTextEntry }) => 
     <View style={containerStyle}>
       <TextInput
         secureTextEntry={secureTextEntry}
+        placeholderTextColor='rgba(216,216,216,0.4)'
         placeholder={placeholder}
         autoCorrect={false}
         style={inputStyle}
@@ -20,8 +21,7 @@ const Input = ({ label, value, onChangeText, placeholder, secureTextEntry }) => 
 const styles = {
   inputStyle: {
     height: 40,
-    borderBottomColor: '#979797',
-    borderBottomWidth: 1
+    color: 'rgba(216,216,216,0.4)'
   },
   containerStyle: {
     borderBottomColor: '#979797',

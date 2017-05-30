@@ -91,9 +91,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center', 
     alignItems: 'center'
   },
-  input: {
-   backgroundColor: 'red'
-  },
   inputContainer: {
     padding: 40,
     height: '60%',
