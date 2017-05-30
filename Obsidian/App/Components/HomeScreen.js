@@ -15,34 +15,38 @@ import firebase from 'firebase';
 import { Button, CardSection, Spinner } from './common';
 import LoginForm from './LoginForm';
 import ProfileScreen from './ProfileScreen';
-
+import axios from 'axios';
+import CurrencyBlock from './CurrencyBlock';
 
 export default class HomeScreen extends Component {
-   constructor(props) {
+
+  constructor(props) {
     super(props);
-    this.state = {value: ''};
+
+    this.state = {
+      info: []
+    };
   }
 
   componentDidMount() {
-    var self = this;
-    const { currentUser } = firebase.auth();
+     axios.get('http:/localhost:3000/')
+       .then(res => {
+        //console.log(res.data);
+         const currencies = res.data;
+         this.setState({ info: currencies });
+         console.log(this.state.info);
+       });
+   }
 
-    sendMessage = () => {
-       console.log('sendMessage.');
-       const { currentUser } = firebase.auth();
-       var updates = {};
-       updates[`users/${currentUser.uid}/`] =
-        {'test': ["1",2,5]}
-       firebase.database().ref().update(updates);
-    }
+   _keyExtractor = (item, index) => item.data.id;
 
-    firebase.database().ref().child('users').child(`${currentUser.uid}`).child('test').on('value', function(snapshot) {
-      console.log(snapshot.val());
-      let value = snapshot.val();
-      self.setState({value: value});
-    });
+   renderItem = ({item}) => {
+    console.log(item);
+    return (
+      <CurrencyBlock key={item.data.id} name = {item.name} amount={item.data.last} shares={item.shares}/>
+    )
   }
-
+  
   render() {
     return (
       <View style={styles.background}>
@@ -60,12 +64,22 @@ export default class HomeScreen extends Component {
             <View style={{flex: 1}}/>
           </View>
         </View>
+
+        <View style={styles.container}>
+          <View style={{flex: 1, flexDirection: 'column',}}>
+            <FlatList
+              data={this.state.info}
+              renderItem={this.renderItem}
+              keyExtractor={this._keyExtractor}
+            />
+          </View>
+        </View>
       </View>
     );
   }
 }
 
-
+// Create styles
 const styles = StyleSheet.create({
   container: {
     height: '100%',

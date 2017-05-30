@@ -23,6 +23,8 @@ import HomeScreen from './Components/HomeScreen';
 
 import config from './Config/config';
 
+import axios from 'axios';
+
 
 // Create Main App Component
 export default class App extends Component {
@@ -61,6 +63,7 @@ export default class App extends Component {
       messagingSenderId: config.messagingSenderId
     });
 
+    // Check if user is authorizied and change state accoridingly
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.setState({ router: 'loggedInHome' });
@@ -70,6 +73,7 @@ export default class App extends Component {
     });
   }
 
+  // render diffrent sceens depended on state
   renderContent() {
     switch (this.state.router) {
       case 'loggedInHome':
@@ -91,6 +95,7 @@ export default class App extends Component {
     }
   }
 
+  // render content from whatever gets called in renderconent()
   render() {
     return (
       <View>
