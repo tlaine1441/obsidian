@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import firebase from 'firebase';
-import { Button, CardSection, Spinner } from './App/Components/common';
-import LoginForm from './App/Components/LoginForm';
 import {
   AppRegistry,
   StyleSheet,
@@ -14,71 +11,68 @@ import {
 } from 'react-native';
 import TopBar from './App/Components/TopBar';
 import images from './App/Config/images';
-import { StackNavigator } from 'react-navigation';
+import firebase from 'firebase';
+import { Button, CardSection, Spinner } from './App/Components/common';
+import LoginForm from './App/Components/LoginForm';
 
 class App extends Component {
-	static navigationOptions = {
-    header: null,
-  };
 
   constructor(props) {
     super(props);
-
     this.state = {
-      loggedIn: null
+      router: null
     };
-
-    this.other = this.other.bind(this);
-    this.back = this.back.bind(this);
+    this.toProfile = this.toProfile.bind(this);
+    this.toHome = this.toHome.bind(this);
   }
 
-  other(){
-  	this.setState({loggedIn: 'other'});
+  toProfile(){
+  	this.setState({router: 'ProfileScreen'});
   }
-   back(){
-  	this.setState({loggedIn: true});
+  toHome(){
+  	this.setState({router: 'loggedInHome'});
   }
 
   componentWillMount() {
-    firebase.initializeApp({
-          apiKey: "AIzaSyA9W-y3LEHDnkWyGZ_ynmnWkLS2XiD0t9I",
-          authDomain: "obsidian-a9f75.firebaseapp.com",
-          databaseURL: "https://obsidian-a9f75.firebaseio.com", 
-          storageBucket: "obsidian-a9f75.appspot.com",
-          messagingSenderId: "38380095952"
-    });
+	  firebase.initializeApp({
+	    apiKey: "AIzaSyA9W-y3LEHDnkWyGZ_ynmnWkLS2XiD0t9I",
+	    authDomain: "obsidian-a9f75.firebaseapp.com",
+	    databaseURL: "https://obsidian-a9f75.firebaseio.com", 
+	    storageBucket: "obsidian-a9f75.appspot.com",
+	    messagingSenderId: "38380095952"
+	  });
 
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.setState({ loggedIn: true });
-      } else {
-        this.setState({ loggedIn: false });
-      }
-    });
+	  firebase.auth().onAuthStateChanged((user) => {
+	    if (user) {
+	      this.setState({ router: 'loggedInHome' });
+	    } else {
+	      this.setState({ router: 'loggedOut' });
+	    }
+	  });
   }
 
   renderContent() {
-    switch (this.state.loggedIn) {
-      case true:
+    switch (this.state.router) {
+      case 'loggedInHome':
       return (
-        <Home other={this.other}/>
+        <Home toProfile={this.toProfile}/>
       );
-      case 'other':
+      case 'ProfileScreen':
       return (
-      	<ProfileScreen back={this.back} />
+      	<ProfileScreen toHome={this.toHome} />
       )
-      case false:
+      case 'loggedOut':
         return <LoginForm />;
       default:
         return (
           <View alignSelf='center'>
             <Spinner size="large" />
-          </View>);
+          </View>
+        );
     }
   }
 
   render() {
-  	
     return (
       <View>
         {this.renderContent()}
@@ -88,9 +82,6 @@ class App extends Component {
 }
 
 class Home extends Component {
-  static navigationOptions = {
-    header: null,
-  };
    constructor(props) {
     super(props);
     this.state = {value: ''};
@@ -99,6 +90,7 @@ class Home extends Component {
   componentDidMount() {
     var self = this;
     const { currentUser } = firebase.auth();
+
     sendMessage = () => {
        console.log('sendMessage.');
        const { currentUser } = firebase.auth();
@@ -106,25 +98,23 @@ class Home extends Component {
        updates[`users/${currentUser.uid}/`] =
         {'test': ["1",2,5]}
        firebase.database().ref().update(updates);
-       // this.setState({ newMessage: '' });
-     }
-      firebase.database().ref().child('users').child(`${currentUser.uid}`).child('test').on('value', function(snapshot) {
-          console.log(snapshot.val());
-          let value = snapshot.val();
-          self.setState({value: value});
+    }
 
-       });
+    firebase.database().ref().child('users').child(`${currentUser.uid}`).child('test').on('value', function(snapshot) {
+	    console.log(snapshot.val());
+	    let value = snapshot.val();
+	    self.setState({value: value});
+    });
   }
 
   render() {
-  	
     return (
       <View style={styles.background}>
         <TopBar />
         <View style={styles.nav}>
           <View style={{flexDirection: 'row'}}>
             <View style={{flex: 1}}>
-              <TouchableHighlight onPress={this.props.other} >
+              <TouchableHighlight onPress={this.props.toProfile} >
               <Image source={images.person} style={{width: 25, height: 25, marginLeft: 10}} />
               </TouchableHighlight>
             </View>
@@ -147,7 +137,7 @@ class ProfileScreen extends React.Component {
       <View style={styles.nav}>
           <View style={{flexDirection: 'row'}}>
             <View style={{flex: 1}}>
-              <TouchableHighlight onPress={this.props.back} >
+              <TouchableHighlight onPress={this.props.toHome} >
               <Image source={images.back} style={{width: 25, height: 25, marginLeft: 10}} />
               </TouchableHighlight>
             </View>
@@ -159,12 +149,6 @@ class ProfileScreen extends React.Component {
         </View>
         <View style={{marginTop: 200}}>
           <CardSection>
-            <Button onPress={() => sendMessage()}>
-              Send
-            </Button>
-            <Button onPress={this.props.other}>
-              Send
-            </Button>
             <Button onPress={() => firebase.auth().signOut()}>
               Log Out
             </Button>
@@ -175,11 +159,6 @@ class ProfileScreen extends React.Component {
   }
 }
 
-const ObsidianApp = StackNavigator({
-	Main: { screen: App },
-  Home: { screen: Home },
-  //Profile: { screen: ProfileScreen },
-  });
 
 const styles = StyleSheet.create({
   container: {
