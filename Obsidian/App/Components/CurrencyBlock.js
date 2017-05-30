@@ -28,14 +28,14 @@ const styles = StyleSheet.create({
   name: {
     flex: 1, 
     color: '#fff',
-    fontSize: 22, 
+    fontSize: 20, 
     paddingTop: 25, 
     paddingLeft: 15
   },
   amount: {
     flex: 1, 
     color: '#2FBC22', 
-    fontSize: 16, 
+    fontSize: 18, 
     paddingTop: 28,
     textAlign: 'center'
   },

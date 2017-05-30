@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import firebase from 'firebase';
+import { Button, CardSection, Spinner } from './App/Components/common';
+import LoginForm from './App/Components/LoginForm';
 import {
   AppRegistry,
   StyleSheet,
@@ -9,15 +12,12 @@ import {
   FlatList, 
   ScrollView
 } from 'react-native';
-import { StackNavigator } from 'react-navigation';
-import NavBar from './App/Components/NavBar';
 import TopBar from './App/Components/TopBar';
-import CurrencyBlock from './App/Components/CurrencyBlock';
 import images from './App/Config/images';
-import axios from 'axios';
+import { StackNavigator } from 'react-navigation';
 
-export default class Obsidian extends Component {
-  static navigationOptions = {
+class App extends Component {
+	static navigationOptions = {
     header: null,
   };
 
@@ -25,38 +25,106 @@ export default class Obsidian extends Component {
     super(props);
 
     this.state = {
-      currencies: []
+      loggedIn: null
     };
+
+    this.other = this.other.bind(this);
+    this.back = this.back.bind(this);
   }
 
-  componentDidMount() {
-     axios.get('http:/localhost:3000/')
-       .then(res => {
-        console.log(res.data);
-         const currencies = res.data;
-         this.setState({ currencies });
-       });
-   }
+  other(){
+  	this.setState({loggedIn: 'other'});
+  }
+   back(){
+  	this.setState({loggedIn: true});
+  }
 
-   _keyExtractor = (item, index) => item.id;
+  componentWillMount() {
+    firebase.initializeApp({
+          apiKey: "AIzaSyA9W-y3LEHDnkWyGZ_ynmnWkLS2XiD0t9I",
+          authDomain: "obsidian-a9f75.firebaseapp.com",
+          databaseURL: "https://obsidian-a9f75.firebaseio.com", 
+          storageBucket: "obsidian-a9f75.appspot.com",
+          messagingSenderId: "38380095952"
+    });
 
-   renderItem = ({item}) => {
-    console.log(item);
-    return (
-      <CurrencyBlock key={item.data.id} name = {item.name} amount={item.data.last} shares={item.shares}/>
-    )
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({ loggedIn: true });
+      } else {
+        this.setState({ loggedIn: false });
+      }
+    });
+  }
+
+  renderContent() {
+    switch (this.state.loggedIn) {
+      case true:
+      return (
+        <Home other={this.other}/>
+      );
+      case 'other':
+      return (
+      	<ProfileScreen back={this.back} />
+      )
+      case false:
+        return <LoginForm />;
+      default:
+        return (
+          <View alignSelf='center'>
+            <Spinner size="large" />
+          </View>);
+    }
   }
 
   render() {
-    const { navigate } = this.props.navigation;
-    let nameList;
+  	
+    return (
+      <View>
+        {this.renderContent()}
+      </View>
+    );
+  }
+}
+
+class Home extends Component {
+  static navigationOptions = {
+    header: null,
+  };
+   constructor(props) {
+    super(props);
+    this.state = {value: ''};
+  }
+
+  componentDidMount() {
+    var self = this;
+    const { currentUser } = firebase.auth();
+    sendMessage = () => {
+       console.log('sendMessage.');
+       const { currentUser } = firebase.auth();
+       var updates = {};
+       updates[`users/${currentUser.uid}/`] =
+        {'test': ["1",2,5]}
+       firebase.database().ref().update(updates);
+       // this.setState({ newMessage: '' });
+     }
+      firebase.database().ref().child('users').child(`${currentUser.uid}`).child('test').on('value', function(snapshot) {
+          console.log(snapshot.val());
+          let value = snapshot.val();
+          self.setState({value: value});
+
+       });
+  }
+
+  render() {
+  	
     return (
       <View style={styles.background}>
         <TopBar />
         <View style={styles.nav}>
           <View style={{flexDirection: 'row'}}>
             <View style={{flex: 1}}>
-              <TouchableHighlight onPress={() => navigate('Profile')} >
+              <TouchableHighlight onPress={this.props.other} >
               <Image source={images.person} style={{width: 25, height: 25, marginLeft: 10}} />
               </TouchableHighlight>
             </View>
@@ -66,15 +134,19 @@ export default class Obsidian extends Component {
             <View style={{flex: 1}}/>
           </View>
         </View>
-
-        <View style={styles.container}>
-          <View style={{flex: 1, flexDirection: 'column',}}>
-            <FlatList
-              data={this.state.currencies}
-              renderItem={this.renderItem}
-              keyExtractor={this._keyExtractor}
-            />
-          </View>
+        <View style={{marginTop: 200}}>
+        <Text>{this.state.value}</Text>
+          <CardSection>
+            <Button onPress={() => sendMessage()}>
+              Send
+            </Button>
+            <Button onPress={this.props.other}>
+              Send
+            </Button>
+            <Button onPress={() => firebase.auth().signOut()}>
+              Log Out
+            </Button>
+          </CardSection>
         </View>
       </View>
     );
@@ -82,18 +154,14 @@ export default class Obsidian extends Component {
 }
 
 class ProfileScreen extends React.Component {
-  static navigationOptions = {
-    header: null
-  };
   render() {
-    const { navigate } = this.props.navigation;
     return (
       <View>
       <TopBar />
       <View style={styles.nav}>
           <View style={{flexDirection: 'row'}}>
             <View style={{flex: 1}}>
-              <TouchableHighlight onPress={() => navigate('Home')} >
+              <TouchableHighlight onPress={this.props.back} >
               <Image source={images.person} style={{width: 25, height: 25, marginLeft: 10}} />
               </TouchableHighlight>
             </View>
@@ -108,11 +176,10 @@ class ProfileScreen extends React.Component {
   }
 }
 
-
-
 const ObsidianApp = StackNavigator({
-  Home: { screen: Obsidian },
-  Profile: { screen: ProfileScreen },
+	Main: { screen: App },
+  Home: { screen: Home },
+  //Profile: { screen: ProfileScreen },
   });
 
 const styles = StyleSheet.create({
@@ -142,4 +209,4 @@ const styles = StyleSheet.create({
   },
 });
 
-AppRegistry.registerComponent('Obsidian', () => ObsidianApp);
+AppRegistry.registerComponent('Obsidian', () => App);
