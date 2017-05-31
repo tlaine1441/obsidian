@@ -5,16 +5,30 @@ import {
   View,
   TouchableOpacity
 } from 'react-native';
+import firebase from 'firebase';
 
 export default class CurrencySelection extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      watch: !this.props.watching
+      watch: true
     };
 
     this.invert = this.invert.bind(this);
     this.track = this.track.bind(this);
+  }
+
+  componentWillMount() { 
+    const { currentUser } = firebase.auth();
+    const self = this;
+    firebase.database().ref().child('users').child(`${currentUser.uid}`).on('value', function(snapshot) {
+      let data = snapshot.val();
+      if(data.tracking.includes(self.props.name)){
+        self.setState({watch: true});
+      } else {
+        self.setState({watch: false});
+      }
+    });
   }
 
   renderButton() {

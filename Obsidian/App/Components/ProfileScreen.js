@@ -25,10 +25,11 @@ export default class ProfileScreen extends React.Component {
       userData: '',
       userEmail: '',
       editing: false,
-      newBalance: null
+      newBalance: null,
     };
     this.updateTracking = this.updateTracking.bind(this);
   }
+
   componentDidMount() {
     const { currentUser } = firebase.auth();
     var self = this;
@@ -42,30 +43,27 @@ export default class ProfileScreen extends React.Component {
           'balance': '1,000'
         }
        firebase.database().ref().update(updates);
-       // this.setState({ newMessage: '' });
      }
-      firebase.database().ref().child('users').child(`${currentUser.uid}`).on('value', function(snapshot) {
-          //console.log(snapshot.val());
-          let data = snapshot.val();
-          self.setState({userData: data});
-          self.setState({userEmail: currentUser.email});
-          self.setState({newBalance: data.balance})
-          console.log(self.state.newBalance);
-      });
 
-     axios.get('http:/localhost:3000/')
-     .then(res => {
-      //console.log(res.data);
-       const currencies = res.data;
-       currencies.watching = true;
-       this.setState({ info: currencies });
-       console.log(this.state.info);
-     });
+    firebase.database().ref().child('users').child(`${currentUser.uid}`).on('value', function(snapshot) {
+      //console.log(snapshot.val());
+      let data = snapshot.val();
+      self.setState({userData: data});
+      self.setState({userEmail: currentUser.email});
+      self.setState({newBalance: data.balance})
+      //console.log(self.state.userTracking);
+    });
+
+   axios.get('http:/localhost:3000/')
+   .then(res => {
+     const currencies = res.data;
+     currencies.watching = true;
+     this.setState({ info: currencies }); 
+   });
   }
 
   editState() {
     this.setState({editing: !this.state.editing});
-    console.log(this.state.editing);
   }
 
   submitEdit() {
@@ -79,12 +77,17 @@ export default class ProfileScreen extends React.Component {
   }
 
   updateTracking(name) {
-    console.log(name);
     let temp = this.state.userData;
-    console.log(temp);
-    temp.tracking.push(name);
-    console.log(temp.tracking);
-
+    if (!temp.tracking.includes(name)) {
+      temp.tracking.push(name);
+    } else {
+      var index = temp.tracking.indexOf(name);
+      temp.tracking.splice(index, 1);
+    }
+    const { currentUser } = firebase.auth();
+    var updates = {};
+    updates[`users/${currentUser.uid}/`] = temp
+    firebase.database().ref().update(updates);
   }
 
   renderBalance() {
@@ -126,7 +129,7 @@ export default class ProfileScreen extends React.Component {
    renderItem = ({item}) => {
     console.log(item);
     return (
-      <CurrencySelection key={item.data.id} name = {item.name} watching = {item.watching} updateTracking = {this.updateTracking} />
+      <CurrencySelection key={item.data.id} name = {item.name}  updateTracking = {this.updateTracking} />
     )
   }
   render() {
