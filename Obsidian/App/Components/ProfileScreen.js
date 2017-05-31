@@ -56,6 +56,7 @@ export default class ProfileScreen extends React.Component {
      .then(res => {
       //console.log(res.data);
        const currencies = res.data;
+       currencies.watching = true;
        this.setState({ info: currencies });
        console.log(this.state.info);
      });
@@ -79,19 +80,16 @@ export default class ProfileScreen extends React.Component {
     switch (this.state.editing) {
       case false:
       return (
-        <Text style={{fontSize: 22, color: '#2FBC22'}}>${this.state.userData.balance}</Text>
+        <Text style={{fontSize: 22, color: '#2FBC22'}}>${this.state.userData.balance ? this.state.userData.balance : 0 }</Text>
       );
       case true:
       return (
         <View style={{justifyContent: 'center', alignItems: 'center', width: '90%', flexDirection: 'row'}}>
         <View style={{width: '80%', paddingTop: 10}}>
         <TextInput
-          //secureTextEntry={secureTextEntry}
           placeholderTextColor='#333333'
           placeholder={this.state.userData.balance}
-          // autoCorrect={false}
-          style={{height: 30, textAlign: 'center', borderColor: 'skyblue', borderWidth: 2, borderRadius: 18, marginBottom: 10}}
-          // value={value}
+          style={styles.editBalance}
           onChangeText={(text) => this.setState({newBalance: text})}
         />
         </View>
@@ -117,7 +115,7 @@ export default class ProfileScreen extends React.Component {
    renderItem = ({item}) => {
     console.log(item);
     return (
-      <CurrencySelection key={item.data.id} name = {item.name}/>
+      <CurrencySelection key={item.data.id} name = {item.name} watching = {item.watching} />
     )
   }
   render() {
@@ -209,4 +207,13 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end', 
     marginBottom: 20
   },
+  editBalance: {
+    height: 30, 
+    textAlign: 'center', 
+    borderColor: 'skyblue', 
+    borderWidth: 2, 
+    borderRadius: 18, 
+    marginBottom: 10
+  },
+
 });

@@ -7,6 +7,35 @@ import {
 } from 'react-native';
 
 export default class CurrencySelection extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      watch: false
+    };
+
+    this.invert = this.invert.bind(this);
+  }
+
+  renderButton() {
+    switch (this.state.watch) {
+      case false:
+      return (
+        <WatchButton invert = {this.invert} />
+      );
+      case true:
+      return (
+        <UnwatchButton invert = {this.invert} />
+      );
+      default:
+        return (
+         <WatchButton invert = {this.invert} />
+        );
+    }
+  }
+
+  invert() {
+      this.setState({watch: !this.state.watch})
+  }
   render() {
     return(
       <View style={styles.wrapper}>
@@ -15,15 +44,37 @@ export default class CurrencySelection extends Component {
         </View>
         
         <View style={styles.buttonCol}>
-          <TouchableOpacity style={styles.buttonStyle}>
-            <View style={{justifyContent: 'center', alignItems: 'center', paddingTop: 5}}>
-            <Text style={{height: 20, width: 50, textAlign: 'center', fontSize: 12}}>
-              Watch
-            </Text>
-            </View>
-          </TouchableOpacity>
+          {this.renderButton()}
         </View>
       </View>
+    );
+  }
+}
+
+class WatchButton extends Component {
+  render() {
+    return(
+      <TouchableOpacity onPress={this.props.invert} style={styles.watchButtonStyle}>
+        <View style={{justifyContent: 'center', alignItems: 'center', paddingTop: 5}}>
+        <Text style={{height: 20, width: 50, textAlign: 'center', fontSize: 12}}>
+          Watch
+        </Text>
+        </View>
+      </TouchableOpacity>
+    );
+  }
+}
+
+class UnwatchButton extends Component {
+  render() {
+    return(
+      <TouchableOpacity onPress={this.props.invert} style={styles.unwatchButtonStyle}>
+        <View style={{justifyContent: 'center', alignItems: 'center', paddingTop: 5}}>
+        <Text style={{height: 20, width: 50, textAlign: 'center', fontSize: 12}}>
+          Unwatch
+        </Text>
+        </View>
+      </TouchableOpacity>
     );
   }
 }
@@ -68,11 +119,19 @@ const styles = StyleSheet.create({
     textAlign: 'center', 
     color: '#9B9B9B'
   },
-  buttonStyle: {
+  watchButtonStyle: {
     width: 90,
     height: 30,
     borderRadius: 18,
     backgroundColor: '#FFFFFF',
+    justifyContent: 'center', 
+    alignItems: 'center'
+  },
+  unwatchButtonStyle: {
+    width: 90,
+    height: 30,
+    borderRadius: 18,
+    backgroundColor: '#333333',
     justifyContent: 'center', 
     alignItems: 'center'
   }
