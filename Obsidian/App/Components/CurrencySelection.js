@@ -10,25 +10,26 @@ export default class CurrencySelection extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      watch: false
+      watch: !this.props.watching
     };
 
     this.invert = this.invert.bind(this);
+    this.track = this.track.bind(this);
   }
 
   renderButton() {
     switch (this.state.watch) {
       case false:
       return (
-        <WatchButton invert = {this.invert} />
+        <WatchButton invert = {this.invert} track = {this.track}/>
       );
       case true:
       return (
-        <UnwatchButton invert = {this.invert} />
+        <UnwatchButton invert = {this.invert} track = {this.track} />
       );
       default:
         return (
-         <WatchButton invert = {this.invert} />
+         <WatchButton invert = {this.invert} track = {this.track} />
         );
     }
   }
@@ -36,6 +37,13 @@ export default class CurrencySelection extends Component {
   invert() {
       this.setState({watch: !this.state.watch})
   }
+
+  track() {
+    //console.log(this.props.name);
+    var temp = this.props.updateTracking(this.props.name);
+    this.invert();
+  }
+
   render() {
     return(
       <View style={styles.wrapper}>
@@ -54,7 +62,7 @@ export default class CurrencySelection extends Component {
 class WatchButton extends Component {
   render() {
     return(
-      <TouchableOpacity onPress={this.props.invert} style={styles.watchButtonStyle}>
+      <TouchableOpacity onPress={this.props.track} style={styles.watchButtonStyle}>
         <View style={{justifyContent: 'center', alignItems: 'center', paddingTop: 5}}>
         <Text style={{height: 20, width: 50, textAlign: 'center', fontSize: 12}}>
           Watch
@@ -68,9 +76,9 @@ class WatchButton extends Component {
 class UnwatchButton extends Component {
   render() {
     return(
-      <TouchableOpacity onPress={this.props.invert} style={styles.unwatchButtonStyle}>
+      <TouchableOpacity onPress={this.props.track} style={styles.unwatchButtonStyle}>
         <View style={{justifyContent: 'center', alignItems: 'center', paddingTop: 5}}>
-        <Text style={{height: 20, width: 50, textAlign: 'center', fontSize: 12}}>
+        <Text style={{height: 20, width: 50, textAlign: 'center', fontSize: 12, color: '#ffffff',}}>
           Unwatch
         </Text>
         </View>

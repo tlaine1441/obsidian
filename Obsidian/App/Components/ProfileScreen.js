@@ -27,6 +27,7 @@ export default class ProfileScreen extends React.Component {
       editing: false,
       newBalance: null
     };
+    this.updateTracking = this.updateTracking.bind(this);
   }
   componentDidMount() {
     const { currentUser } = firebase.auth();
@@ -76,6 +77,16 @@ export default class ProfileScreen extends React.Component {
     firebase.database().ref().update(updates);
     this.setState({editing: false});
   }
+
+  updateTracking(name) {
+    console.log(name);
+    let temp = this.state.userData;
+    console.log(temp);
+    temp.tracking.push(name);
+    console.log(temp.tracking);
+
+  }
+
   renderBalance() {
     switch (this.state.editing) {
       case false:
@@ -115,7 +126,7 @@ export default class ProfileScreen extends React.Component {
    renderItem = ({item}) => {
     console.log(item);
     return (
-      <CurrencySelection key={item.data.id} name = {item.name} watching = {item.watching} />
+      <CurrencySelection key={item.data.id} name = {item.name} watching = {item.watching} updateTracking = {this.updateTracking} />
     )
   }
   render() {
