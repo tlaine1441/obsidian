@@ -11,7 +11,7 @@ export default class CurrencySelection extends Component {
     return(
       <View style={styles.wrapper}>
       <View style={{width: '60%'}}>
-        <Text style={styles.name}>Etm</Text>
+        <Text style={styles.name}>{this.props.name}</Text>
         </View>
         
         <View style={styles.buttonCol}>

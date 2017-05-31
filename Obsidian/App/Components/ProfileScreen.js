@@ -16,6 +16,7 @@ import firebase from 'firebase';
 import { Button, CardSection, Spinner } from './common';
 import LoginForm from './LoginForm';
 import CurrencySelection from './CurrencySelection';
+import axios from 'axios';
 
 export default class ProfileScreen extends React.Component {
   constructor(props) {
@@ -23,12 +24,13 @@ export default class ProfileScreen extends React.Component {
     this.state = {
       userData: '',
       userEmail: '',
-      editing: false
+      editing: false,
+      newBalance: null
     };
   }
   componentDidMount() {
-    var self = this;
     const { currentUser } = firebase.auth();
+    var self = this;
     sendMessage = () => {
        //console.log('sendMessage.');
        var updates = {};
@@ -46,8 +48,17 @@ export default class ProfileScreen extends React.Component {
           let data = snapshot.val();
           self.setState({userData: data});
           self.setState({userEmail: currentUser.email});
-          console.log(self.state.userEmail);
+          self.setState({newBalance: data.balance})
+          console.log(self.state.newBalance);
       });
+
+     axios.get('http:/localhost:3000/')
+     .then(res => {
+      //console.log(res.data);
+       const currencies = res.data;
+       this.setState({ info: currencies });
+       console.log(this.state.info);
+     });
   }
 
   editState() {
@@ -56,7 +67,12 @@ export default class ProfileScreen extends React.Component {
   }
 
   submitEdit() {
-    console.log("hit");
+    let temp = this.state.userData;
+    temp.balance = this.state.newBalance;
+    const { currentUser } = firebase.auth();
+    var updates = {};
+    updates[`users/${currentUser.uid}/`] = temp
+    firebase.database().ref().update(updates);
     this.setState({editing: false});
   }
   renderBalance() {
@@ -74,9 +90,9 @@ export default class ProfileScreen extends React.Component {
           placeholderTextColor='#333333'
           placeholder={this.state.userData.balance}
           // autoCorrect={false}
-           style={{height: 30, textAlign: 'center', borderColor: 'skyblue', borderWidth: 2, borderRadius: 18, marginBottom: 10}}
+          style={{height: 30, textAlign: 'center', borderColor: 'skyblue', borderWidth: 2, borderRadius: 18, marginBottom: 10}}
           // value={value}
-          // onChangeText={onChangeText}
+          onChangeText={(text) => this.setState({newBalance: text})}
         />
         </View>
         <View style={{width: '20%'}}>
@@ -89,9 +105,20 @@ export default class ProfileScreen extends React.Component {
       );
       default:
         return (
-         <Text style={{fontSize: 22, color: '#2FBC22'}}>${this.state.userData.balance}</Text>
+         <Text style={{fontSize: 22, color: '#2FBC22'}}>${this.state.userData.balance ? this.state.userData.balance : '0'}</Text>
         );
     }
+  }
+
+  // Get unique keys from data
+   _keyExtractor = (item, index) => item.data.id;
+
+   // Render Currency block factory
+   renderItem = ({item}) => {
+    console.log(item);
+    return (
+      <CurrencySelection key={item.data.id} name = {item.name}/>
+    )
   }
   render() {
     return (
@@ -134,7 +161,11 @@ export default class ProfileScreen extends React.Component {
           {this.renderBalance()}
         </View>
         <View style={styles.selectionContainer}>
-        <CurrencySelection/>
+        <FlatList
+              data={this.state.info}
+              renderItem={this.renderItem}
+              keyExtractor={this._keyExtractor}
+            />
         </View>
       </View>
     );
