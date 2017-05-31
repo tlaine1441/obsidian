@@ -1,10 +1,16 @@
 import React from 'react';
-import { TextInput, Text, View } from 'react-native';
+import { TextInput, Text, View, Image } from 'react-native';
 
-const Input = ({ label, value, onChangeText, placeholder, secureTextEntry }) => {
+import images from '../../Config/images';
+
+const PasswordInput = ({ label, value, onChangeText, placeholder, secureTextEntry }) => {
   const { inputStyle, labelStyle, containerStyle } = styles;
   return (
     <View style={containerStyle}>
+    <View style={{justifyContent: 'center', alignItems: 'center'}}>
+      <Image source={images.lock} style={{width: 25, height: 25, marginRight: 10}} />
+    </View>
+    <View style={{width: '100%'}}>
       <TextInput
         secureTextEntry={secureTextEntry}
         placeholderTextColor='rgba(216,216,216,0.4)'
@@ -14,6 +20,7 @@ const Input = ({ label, value, onChangeText, placeholder, secureTextEntry }) => 
         value={value}
         onChangeText={onChangeText}
       />
+      </View>
     </View>
   );
 };
@@ -21,12 +28,15 @@ const Input = ({ label, value, onChangeText, placeholder, secureTextEntry }) => 
 const styles = {
   inputStyle: {
     height: 40,
+    width: '80%',
     color: 'rgba(216,216,216,0.4)'
   },
   containerStyle: {
+    flexDirection: 'row',
     borderBottomColor: '#979797',
-    borderBottomWidth: 1
+    borderBottomWidth: 1,
+    
   }
 };
 
-export { Input };
+export { PasswordInput };
