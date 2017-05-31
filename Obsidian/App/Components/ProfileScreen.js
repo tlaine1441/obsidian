@@ -28,17 +28,23 @@ export default class ProfileScreen extends React.Component {
               </TouchableHighlight>
             </View>
             <View style={{flex: 1, alignItems: 'center'}}>
-            <Image source={images.logo} style={{ width: 35, height: 25}}/>
+              <Image source={images.logo} style={{ width: 35, height: 25}}/>
             </View>
-            <View style={{flex: 1}}/>
-          </View>
+            <View style={{flex: 1}}>
+            <TouchableHighlight onPress={() => firebase.auth().signOut()} >
+              <Text style={{textAlign: 'right', paddingRight: 10}}>Logout</Text>
+            </TouchableHighlight>
+            </View>
+            </View>
         </View>
-        <View style={{marginTop: 200}}>
-          <CardSection>
-            <Button onPress={() => firebase.auth().signOut()}>
-              Log Out
-            </Button>
-          </CardSection>
+        <View style={styles.mainContainer}>
+
+        </View>
+        <View style={styles.ballanceContainer}>
+
+        </View>
+        <View style={styles.selectionContainer}>
+
         </View>
       </View>
     );
@@ -50,5 +56,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#DC6464',
     height: 50,
     paddingTop: 15,
+  },
+  mainContainer: {
+    height: 250,
+    backgroundColor: '#312F32',
+  },
+  ballanceContainer: {
+    height: 100,
+    backgroundColor: '#E2F8FD',
+  },
+  selectionContainer: {
+    backgroundColor: '#DC6464',
+    height: 300
   },
 });

@@ -51,7 +51,7 @@ class LoginForm extends Component {
     return (
       <View style={styles.background}>
         <View style={styles.logoContainer}>
-          <Image source={images.login_logo} style={{ width: 125, height: 100}}/>
+          <Image source={images.login_logo} style={{ width: 145, height: 115}}/>
 
         </View>
         <View style={styles.inputContainer} >
