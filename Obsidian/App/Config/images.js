@@ -5,7 +5,9 @@ const images = {
 	login_logo: require('../Images/Login_logo.png'),
 	lock: require('../Images/lock.png'),
 	mail: require('../Images/mail.png'),
-	avatar: require('../Images/avatar.png')
+	avatar: require('../Images/avatar.png'),
+	edit: require('../Images/edit.png'),
+	check: require('../Images/check.png')
 }
 
 export default images;
