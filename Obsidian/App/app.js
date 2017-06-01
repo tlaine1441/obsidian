@@ -74,7 +74,7 @@ export default class App extends Component {
       }
     });
 
-     axios.get('http:/localhost:3000/')
+     axios.get('https://obsidianapi.herokuapp.com/api/')
        .then(res => {
         //console.log(res.data);
          const currencies = res.data;
