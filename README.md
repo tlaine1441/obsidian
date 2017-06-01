@@ -38,9 +38,9 @@ From there I started working on the profile screen and authentication functional
 
 # WireFrames
 <div align="center">
-<img src="./screenshots_mockups/login.png">
-<img src="./screenshots_mockups/watchboard.png">
-<img src="./screenshots_mockups/profile.png">
+<img src="./screenshots_mockups/login.png" width="200">
+<img src="./screenshots_mockups/watchboard.png" width="200">
+<img src="./screenshots_mockups/profile.png" width="200">
 </div>
 
 An embedded screenshot of the app
