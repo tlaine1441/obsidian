@@ -1,5 +1,5 @@
 
-<div style="margin:0 auto"><img src="./screenshots_mockups/invert_logo.png"></div>
+<div style="margin:0 auto"><img align="center" src="./screenshots_mockups/invert_logo.png"></div>
 
 An embedded screenshot of the app
 Explanations of the technologies used
