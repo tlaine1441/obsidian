@@ -1,7 +1,11 @@
 <div align="center" ><img src="./screenshots_mockups/invert_logo.png"></div>
 
+# Welcome To Obidian Readme!
+
+### Obsidian is a Cryptocurrency exchange tracker and soon will be a fully integrated portfolio
+
 ## Screenshots
-<div>
+<div align="center">
 <img src="./screenshots_mockups/login_screen_shot.png" width="200">
 <img src="./screenshots_mockups/home_screen_shot.png" width="200">
 <img src="./screenshots_mockups/profile_screen_shot.png" width="200">
