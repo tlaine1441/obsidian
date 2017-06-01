@@ -35,6 +35,14 @@ From there I started working on the profile screen and authentication functional
 # User Stories
 ### [Trello](https://trello.com/b/rTppVKwm/project-4)
 
+
+# WireFrames
+<div align="center">
+<img src="./screenshots_mockups/login.png">
+<img src="./screenshots_mockups/watchboard.png">
+<img src="./screenshots_mockups/profile.png">
+</div>
+
 An embedded screenshot of the app
 Explanations of the technologies used
 A couple paragraphs about the general approach you took
