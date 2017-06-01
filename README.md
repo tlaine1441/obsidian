@@ -1,3 +1,6 @@
+
+<img src="./screenshots_mockups/Login_logo.png">
+
 An embedded screenshot of the app
 Explanations of the technologies used
 A couple paragraphs about the general approach you took
@@ -8,9 +11,7 @@ Link to your pitch deck – documentation of your wireframes, user stories, and 
 Descriptions of any unsolved problems or major hurdles you had to overcome
 
 <div>
-<center>
 <img src="./screenshots_mockups/login_screen_shot.png" width="200">
 <img src="./screenshots_mockups/home_screen_shot.png" width="200">
 <img src="./screenshots_mockups/profile_screen_shot.png" width="200">
-</center>
 </div>
