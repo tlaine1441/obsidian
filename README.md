@@ -7,7 +7,8 @@ Link to your wireframes – sketches of major views / interfaces in your applica
 Link to your pitch deck – documentation of your wireframes, user stories, and proposed architecture
 Descriptions of any unsolved problems or major hurdles you had to overcome
 
-
+<div>
 <img src="./screenshots_mockups/login_screen_shot.png" width="200">
 <img src="./screenshots_mockups/home_screen_shot.png" width="200">
 <img src="./screenshots_mockups/profile_screen_shot.png" width="200">
+</div>
