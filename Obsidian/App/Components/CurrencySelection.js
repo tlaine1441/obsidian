@@ -11,11 +11,10 @@ export default class CurrencySelection extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      watch: true
+      watch: null
     };
 
-    this.invert = this.invert.bind(this);
-    this.track = this.track.bind(this);
+    this.trackCurrency = this.trackCurrency.bind(this);
   }
 
   componentWillMount() { 
@@ -35,27 +34,21 @@ export default class CurrencySelection extends Component {
     switch (this.state.watch) {
       case false:
       return (
-        <WatchButton invert = {this.invert} track = {this.track}/>
+        <WatchButton track = {this.trackCurrency}/>
       );
       case true:
       return (
-        <UnwatchButton invert = {this.invert} track = {this.track} />
+        <UnwatchButton track = {this.trackCurrency} />
       );
       default:
         return (
-         <WatchButton invert = {this.invert} track = {this.track} />
+         <LoadingButton />
         );
     }
   }
 
-  invert() {
-      this.setState({watch: !this.state.watch})
-  }
-
-  track() {
-    //console.log(this.props.name);
+  trackCurrency() {
     var temp = this.props.updateTracking(this.props.name);
-    this.invert();
   }
 
   render() {
@@ -94,6 +87,20 @@ class UnwatchButton extends Component {
         <View style={{justifyContent: 'center', alignItems: 'center', paddingTop: 5}}>
         <Text style={{height: 20, width: 50, textAlign: 'center', fontSize: 12, color: '#ffffff',}}>
           Unwatch
+        </Text>
+        </View>
+      </TouchableOpacity>
+    );
+  }
+}
+
+class LoadingButton extends Component {
+  render() {
+    return(
+      <TouchableOpacity onPress={this.props.trackCurrency} style={styles.watchButtonStyle}>
+        <View style={{justifyContent: 'center', alignItems: 'center', paddingTop: 5}}>
+        <Text style={{height: 20, width: 50, textAlign: 'center', fontSize: 12, color: '#333333',}}>
+          Loading...
         </Text>
         </View>
       </TouchableOpacity>

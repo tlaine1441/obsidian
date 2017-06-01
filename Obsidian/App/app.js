@@ -33,12 +33,14 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      router: null
+      router: null,
+
     };
 
     // bindings
     this.toProfile = this.toProfile.bind(this);
     this.toHome = this.toHome.bind(this);
+    this.holdState = this.holdState.bind(this);
   } // end constructor
 
   // toProfile function sets router state to 'ProfileScreen'
@@ -71,6 +73,25 @@ export default class App extends Component {
         this.setState({ router: 'loggedOut' });
       }
     });
+
+     axios.get('http:/localhost:3000/')
+       .then(res => {
+        //console.log(res.data);
+         const currencies = res.data;
+         this.setState({ info: currencies });
+         console.log(this.state.info);
+      }); 
+  }
+
+  holdState(data) {
+    const { currentUser } = firebase.auth();
+      const self = this;
+      firebase.database().ref().child('users').child(`${currentUser.uid}`).on('value', function(snapshot) {
+      //console.log(snapshot.val());
+      let data = snapshot.val();
+      self.setState({userData: data});
+      //console.log(self.state.userTracking);
+    });
   }
 
   // render diffrent sceens depended on state
@@ -78,7 +99,7 @@ export default class App extends Component {
     switch (this.state.router) {
       case 'loggedInHome':
       return (
-        <HomeScreen toProfile={this.toProfile}/>
+        <HomeScreen apiData = {this.state.info} toProfile={this.toProfile}/>
       );
       case 'ProfileScreen':
       return (

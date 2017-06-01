@@ -58,7 +58,7 @@ export default class ProfileScreen extends React.Component {
    .then(res => {
      const currencies = res.data;
      currencies.watching = true;
-     this.setState({ info: currencies }); 
+     this.setState({ info: currencies });
    });
   }
 

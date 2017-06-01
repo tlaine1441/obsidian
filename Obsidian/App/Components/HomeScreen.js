@@ -17,31 +17,52 @@ import ProfileScreen from './ProfileScreen';
 import axios from 'axios';
 import CurrencyBlock from './CurrencyBlock';
 
+
 export default class HomeScreen extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      info: []
+      info: [],
+      tracks: []
     };
+
   }
 
   componentDidMount() {
-     axios.get('http:/localhost:3000/')
-       .then(res => {
-        //console.log(res.data);
-         const currencies = res.data;
-         this.setState({ info: currencies });
-         console.log(this.state.info);
-       });
-   }
+      const { currentUser } = firebase.auth();
+      const self = this;
+      let data;
+      firebase.database().ref().child('users').child(`${currentUser.uid}`).on('value', function(snapshot) {
+        //console.log(snapshot.val());
+        data = snapshot.val();
+        //console.log(data);
+        self.props.apiData.forEach((currency) => {
+          if(data.tracking.includes(currency.name)){
+             console.log(currency);
+            // if(!self.state.tracks.includes(currency.name)){
+            //   console.log(currency);
+            //   self.setState({tracks: currency});
+            // }
+          }
+        });
+      });
+    this.setState({info: this.props.apiData});
+  }
 
    // Get unique keys from data
    _keyExtractor = (item, index) => item.data.id;
 
    // Render Currency block factory
    renderItem = ({item}) => {
-    console.log(item);
+    const { currentUser } = firebase.auth();
+    const self = this;
+      var shares;
+      firebase.database().ref().child('users').child(`${currentUser.uid}`).on('value', function(snapshot) {
+        //console.log(snapshot.val());
+        var data = snapshot.val();
+        item.newBal = data.balance;
+      });
     return (
       <CurrencyBlock key={item.data.id} name = {item.name} amount={item.data.last} shares={item.shares}/>
     )
