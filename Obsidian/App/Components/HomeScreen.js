@@ -64,7 +64,7 @@ export default class HomeScreen extends Component {
         item.newBal = data.balance;
       });
     return (
-      <CurrencyBlock key={item.data.id} name = {item.name} amount={item.data.last} shares={item.shares}/>
+      <CurrencyBlock key={item.data.id} name = {item.name} amount={item.data.last} shares={item.buyPower}/>
     )
   }
 

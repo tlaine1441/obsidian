@@ -54,7 +54,7 @@ export default class ProfileScreen extends React.Component {
       //console.log(self.state.userTracking);
     });
 
-   axios.get('https://obsidianapi.herokuapp.com/api/')
+   axios.get('http://localhost:3000')
    .then(res => {
      const currencies = res.data;
      currencies.watching = true;
