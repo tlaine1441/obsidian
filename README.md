@@ -1,5 +1,5 @@
 
-<img src="./screenshots_mockups/Login_logo.png">
+<img src="./screenshots_mockups/invert_logo.png">
 
 An embedded screenshot of the app
 Explanations of the technologies used
