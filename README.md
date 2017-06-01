@@ -43,11 +43,10 @@ From there I started working on the profile screen and authentication functional
 <img src="./screenshots_mockups/profile.png" width="200">
 </div>
 
-An embedded screenshot of the app
-Explanations of the technologies used
-A couple paragraphs about the general approach you took
-Installation instructions for any dependencies
-Link to your user stories – who are your users, what do they want, and why?
-Link to your wireframes – sketches of major views / interfaces in your application
-Link to your pitch deck – documentation of your wireframes, user stories, and proposed architecture
-Descriptions of any unsolved problems or major hurdles you had to overcome
+# Issues
+This project was overall a really great challenge and learning experience. Learning React Native was a challenge on its own. Being so new there is not a ton of help on certain issues and many of the solutions are depricated now. After getting a handle on what was going on it was pretty easy. That is until the project got bigger and bigger and then state became a massive challenge. Building my own router was really cool but would not do that moving forward.
+
+Take aways: 
+Use React Router v4 
+Use Redux
+
