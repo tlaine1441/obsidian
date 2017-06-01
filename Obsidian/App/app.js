@@ -55,7 +55,7 @@ export default class App extends Component {
 
   // Will Mount
   componentWillMount() {
-
+  console.disableYellowBox = true;
     // Initialize FireBase
     firebase.initializeApp({
       apiKey: config.apiKey,
@@ -73,8 +73,8 @@ export default class App extends Component {
         this.setState({ router: 'loggedOut' });
       }
     });
-
-     axios.get('https://obsidianapi.herokuapp.com/api/')
+    //https://obsidianapi.herokuapp.com/api/
+     axios.get('http://localhost:3000')
        .then(res => {
         //console.log(res.data);
          const currencies = res.data;
