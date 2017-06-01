@@ -47,6 +47,6 @@ From there I started working on the profile screen and authentication functional
 This project was overall a really great challenge and learning experience. Learning React Native was a challenge on its own. Being so new there is not a ton of help on certain issues and many of the solutions are depricated now. After getting a handle on what was going on it was pretty easy. That is until the project got bigger and bigger and then state became a massive challenge. Building my own router was really cool but would not do that moving forward.
 
 ### Take aways: 
-Use React Router v4 
-Use Redux
+* Use React Router v4 
+* Use Redux
 
