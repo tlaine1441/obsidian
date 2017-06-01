@@ -8,7 +8,7 @@ Link to your pitch deck – documentation of your wireframes, user stories, and 
 Descriptions of any unsolved problems or major hurdles you had to overcome
 
 <div>
-<img src="./screenshots_mockups/login_screen_shot.png" width="200" marigin-right="30">
+<img src="./screenshots_mockups/login_screen_shot.png" width="200" margin-right="30">
 <img src="./screenshots_mockups/home_screen_shot.png" width="200">
 <img src="./screenshots_mockups/profile_screen_shot.png" width="200">
 </div>
