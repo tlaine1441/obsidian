@@ -33,7 +33,7 @@ From there I started working on the profile screen and authentication functional
 4. react-native run-ios
 
 # User Stories
-[Trello](https://trello.com/b/rTppVKwm/project-4)
+### [Trello](https://trello.com/b/rTppVKwm/project-4)
 
 An embedded screenshot of the app
 Explanations of the technologies used
