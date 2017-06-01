@@ -2,7 +2,7 @@
 
 # Welcome To Obidian Readme!
 
-#### Obsidian is a Cryptocurrency exchange tracker and soon will be a fully integrated portfolio
+Obsidian is a Cryptocurrency exchange tracker and soon will be a fully integrated portfolio
 
 # Screenshots
 <div align="center">
@@ -17,6 +17,23 @@
 3. Express
 4. Firebase
 5. Kraken API
+
+# Approach
+
+The project was initially started by designing and creating wireframes. This not only helped drive the styling but helped define the components that would need to be made in react. Then I moved into a proof of concept by generating some api calls from some cryptocurrency exchanges. Once this was accomplished I began testing some helloworld React Native apps.
+
+Then development of some mockups in React Native began. Once these were completed I integrated the api data to the frontend and had a working prototype.
+
+From there I started working on the profile screen and authentication functionality.
+
+# Installation
+1. Install react-native-cli
+2. fork and clone
+3. npm install
+4. react-native run-ios
+
+# User Stories
+[Trello](https://trello.com/b/rTppVKwm/project-4)
 
 An embedded screenshot of the app
 Explanations of the technologies used
