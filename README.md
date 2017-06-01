@@ -8,6 +8,7 @@ Link to your pitch deck – documentation of your wireframes, user stories, and 
 Descriptions of any unsolved problems or major hurdles you had to overcome
 
 
-![](./screenshots_mockups/login_screen_shot.png) {width: 100}
+![](./screenshots_mockups/login_screen_shot.png)
+<img src="./screenshots_mockups/login_screen_shot.png" width="48">
 ![](./screenshots_mockups/home_screen_shot.png)
 ![](./screenshots_mockups/profile_screen_shot.png)
