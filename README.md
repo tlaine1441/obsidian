@@ -2,16 +2,16 @@
 
 # Welcome To Obidian Readme!
 
-### Obsidian is a Cryptocurrency exchange tracker and soon will be a fully integrated portfolio
+#### Obsidian is a Cryptocurrency exchange tracker and soon will be a fully integrated portfolio
 
-## Screenshots
+# Screenshots
 <div align="center">
 <img src="./screenshots_mockups/login_screen_shot.png" width="200">
 <img src="./screenshots_mockups/home_screen_shot.png" width="200">
 <img src="./screenshots_mockups/profile_screen_shot.png" width="200">
 </div>
 
-## Technologies
+# Technologies
 1. React Native
 2. Node
 3. Express
